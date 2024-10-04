@@ -8,7 +8,7 @@ RUN apt-get -y install apt-utils gcc \
 	file luajit make lua50 dialog curl \
 	less cowsay netcat-openbsd sqlite3 g++ git make cmake ninja-build
 RUN useradd -m user && echo "user:password" | chpasswd
-RUN git clone https://github.com/duckdb/duckdb --branch v1.1.1 --single-branch
+RUN git clone https://github.com/carlopi/duckdb --branch main --single-branch
 RUN cd duckdb && mkdir -p ./build/release && cd build/release && cmake -DBUILD_UNITTEST=FALSE -DFORCE_32_BIT=1 -DENABLE_SANITIZER=FALSE -DENABLE_UBSAN=0 -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build . --config Release && cmake --install . --config Release
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/examples/lua
