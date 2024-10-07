@@ -17,6 +17,7 @@ RUN cd /home/user && ./duckdb -c "SET allow_extensions_metadata_mismatch = true;
 RUN cd /home/user && ./duckdb -c "SET allow_extensions_metadata_mismatch = true; INSTALL fts FROM 'repository';"
 RUN cd /home/user && ./duckdb -c "SET allow_extensions_metadata_mismatch = true; INSTALL sqlite_scanner FROM 'repository';"
 RUN mv /home/user/duckdb /bin/duckdb
+RUN mv /root/.duckdb /home/user/.duckdb
 RUN rm -rf /home/user/repository
 # We set WORKDIR, as this gets extracted by Webvm to be used as the cwd. This is optional.
 WORKDIR /home/user/
