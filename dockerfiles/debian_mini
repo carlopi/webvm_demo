@@ -8,7 +8,7 @@ RUN apt-get -y install apt-utils gcc \
 	file make dialog \
 	less cowsay sqlite3 g++ git make cmake ninja-build
 RUN useradd -m user && echo "user:password" | chpasswd
-RUN git clone https://github.com/carlopi/duckdb --branch support_earlier_cmake --single-branch
+RUN git clone https://github.com/carlopi/duckdb --branch support_earlier_cmake
 RUN cd duckdb && mkdir -p ./build/release && cd build/release && cmake -DEXTENSION_STATIC_BUILD=TRUE -DCORE_EXTENSIONS="tpch;tpcds;fts;sqlite_scanner" -DBUILD_UNITTEST=FALSE -DFORCE_32_BIT=1 -DENABLE_SANITIZER=FALSE -DENABLE_UBSAN=0 -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build . --config Release && cp -r repository /home/user/repository && cmake -DCORE_EXTENSIONS="icu;json;parquet;autocomplete" -DBUILD_UNITTEST=FALSE -DFORCE_32_BIT=1 -DENABLE_SANITIZER=FALSE -DENABLE_UBSAN=0 -DENABLE_EXTENSION_AUTOLOADING=1 -DENABLE_EXTENSION_AUTOINSTALL=1 -DCMAKE_BUILD_TYPE=Release ../.. && cmake --build . --config Release && cp duckdb /home/user/duckdb && cd ../../ && make clean && cd .. && rm -rf duckdb
 COPY --chown=user:user ./examples /home/user/examples
 RUN chmod -R +x  /home/user/duckdb
